@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 
 // Form validation
@@ -16,11 +16,33 @@ export default function App() {
   const [isPassGenerated, setIsPassGenerated] = useState(false);
   const [lowerCase, setLowerCase] = useState(true);
   const [upperCase, setUpperCase] = useState(false);
-  const [number, useNumber] = useState(false);
-  const [symbols, useSymbols] = useState(false);
+  const [numbers, setNumbers] = useState(false);
+  const [symbols, setSymbols] = useState(false);
 
   const generatePasswordString = (passwordLength: number) => {
-    //
+    let characterList = '';
+
+    const upperCaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const lowerCaseChars = 'abcdefghijklmnopqrstuvwxyz';
+    const digitChars = '1234567890';
+    const specialChars = '!@#$%^&*()_+';
+
+    if (upperCase) {
+      characterList += upperCase;
+    }
+    if (lowerCase) {
+      characterList += lowerCase;
+    }
+    if (numbers) {
+      characterList += numbers;
+    }
+    if (symbols) {
+      characterList += symbols;
+    }
+
+    const passwordResult = createPassword(characterList, passwordLength);
+    setPassword(passwordResult);
+    setIsPassGenerated(true);
   };
 
   const createPassword = (characters: string, passwordLength: number) => {
@@ -29,10 +51,17 @@ export default function App() {
       const characterIndex = Math.round(Math.random() * characters.length);
       result += characters.charAt(characterIndex);
     }
+    return result;
+    console.log('Abhay');
   };
 
   const resetPasswordState = () => {
-    //
+    setPassword('');
+    setIsPassGenerated(false);
+    setLowerCase(true);
+    setUpperCase(false);
+    setNumbers(false);
+    setSymbols(false);
   };
 
   return (
